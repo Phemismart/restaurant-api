@@ -11,7 +11,7 @@ func main() {
 	config.ConnectDB()
 
 	// 2. Automatically create/update database tables based on your models
-	config.DB.AutoMigrate(&models.Dish{}, &models.Order{})
+	config.DB.AutoMigrate(&models.Dish{}, &models.Order{}, &models.User{})
 
 	// 3. Set up the Gin router and register all API routes
 	r := routes.SetupRouter()

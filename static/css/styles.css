@@ -1,0 +1,32 @@
+/* Custom Scrollbar for sleek UI */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: #FBF9F5;
+}
+::-webkit-scrollbar-thumb {
+    background: #EBE2D3;
+    border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #D95A32;
+}
+
+/* Skeleton Loading Pulse Animation */
+@keyframes pulse-bg {
+    0%, 100% { background-color: #F5F0E8; }
+    50% { background-color: #EBE2D3; }
+}
+.animate-skeleton {
+    animation: pulse-bg 1.5s infinite ease-in-out;
+}
+
+/* Card image zoom effect */
+.dish-card-img {
+    transition: transform 0.5s ease;
+}
+.dish-card:hover .dish-card-img {
+    transform: scale(1.06);
+}

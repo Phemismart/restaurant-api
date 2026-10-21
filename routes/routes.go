@@ -2,6 +2,7 @@ package routes
 
 import (
 	"restaurant-api/controllers"
+	"restaurant-api/middleware"
 
 	"github.com/gin-gonic/gin"
 )
@@ -9,16 +10,27 @@ import (
 func SetupRouter() *gin.Engine {
 	r := gin.Default()
 
-	// Group routes under /api prefix
+	// CORS Setup...
+	r.Static("/static", "./static")
+	r.StaticFile("/", "./static/index.html")
+
 	api := r.Group("/api")
 	{
-		// Menu endpoints
-		api.GET("/menu", controllers.GetMenu)
-		api.POST("/menu", controllers.CreateDish)
+		// --- Public Auth Routes ---
+		api.POST("/signup", controllers.Signup)
+		api.POST("/login", controllers.Login)
 
-		// Order endpoints
-		api.GET("/orders", controllers.GetOrders)
-		api.POST("/orders", controllers.CreateOrder)
+		// --- Public Menu Route ---
+		api.GET("/menu", controllers.GetMenu)
+
+		// --- Protected Routes (Require JWT Token) ---
+		protected := api.Group("/")
+		protected.Use(middleware.RequireAuth)
+		{
+			protected.POST("/menu", controllers.CreateDish)
+			protected.GET("/orders", controllers.GetOrders)
+			protected.POST("/orders", controllers.CreateOrder)
+		}
 	}
 
 	return r
